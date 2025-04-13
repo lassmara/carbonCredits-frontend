@@ -4,14 +4,17 @@ import axios from 'axios';
 const EmployeeActions = () => {
   const handleRequest = async (option) => {
     try {
-        axios.post('http://localhost:5000/api/points/request', 
-            { option },
-            { withCredentials: true }
-          );
-          
-      alert(`Request submitted for ${option}`);
+      const response = await axios.post(
+        'http://localhost:5000/api/points/request',
+        { option },
+        { withCredentials: true }
+      );
+
+      alert(`✅ Request submitted for ${option}`);
+      console.log("Response:", response.data);
     } catch (err) {
-      alert('Error submitting request');
+      console.error("❌ Error submitting request:", err.response?.data || err.message);
+      alert(`❌ Error: ${err.response?.data?.message || "Request failed"}`);
     }
   };
 
