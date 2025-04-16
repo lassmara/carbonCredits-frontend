@@ -13,6 +13,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import axios from '../axios';
+import MapTracker from './MapTracker'; // Adjust path if needed
 
 const EmployerDashboard = () => {
   const [requests, setRequests] = useState([]);
@@ -71,6 +72,17 @@ const EmployerDashboard = () => {
         )}
 
         <Divider sx={{ my: 3 }} />
+
+        {/* MAP TRACKING SECTION */}
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            Drive Tracking
+          </Typography>
+          <MapTracker />
+        </Box>
+
+        <Divider sx={{ my: 3 }} />
+
 
         <Typography variant="h6" gutterBottom>
           Pending Carbon Credit Requests

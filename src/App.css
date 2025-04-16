@@ -12,6 +12,11 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  z-index: 0;
+}
 
 .App-header {
   background-color: #282c34;
