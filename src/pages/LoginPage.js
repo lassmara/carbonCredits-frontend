@@ -24,7 +24,8 @@ const LoginPage = () => {
       const res = await axios.post('/auth/login', form);
       const role = res.data.role;
       setTimeout(() => {
-        navigate(role === 'employee' ? '/dashboard/employee' : '/dashboard/employer');
+        navigate(role === 'employee' ? '/employee/dashboard' : '/employer/dashboard'); // ✅ CORRECT
+
       }, 200);
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');

@@ -13,6 +13,7 @@ import {
   Dashboard,
   AccountCircle,
   AssignmentTurnedIn,
+  AccountBalanceWallet
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -20,17 +21,20 @@ const Sidebar = ({ isEmployer, pendingCount }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Base path is now simplified
+  const basePath = isEmployer ? '/employer' : '/employee';
+
   const items = isEmployer
     ? [
         {
           text: 'Dashboard',
           icon: <Dashboard />,
-          path: '/employer/dashboard',
+          path: `${basePath}/dashboard`,
         },
         {
           text: 'Profile',
           icon: <AccountCircle />,
-          path: '/employer/profile',
+          path: `${basePath}/profile`,
         },
         {
           text: 'Requests',
@@ -39,15 +43,38 @@ const Sidebar = ({ isEmployer, pendingCount }) => {
               <AssignmentTurnedIn />
             </Badge>
           ),
-          path: '/employer/requests',
+          path: `${basePath}/requests`,
         },
       ]
-    : [];
+    : [
+        {
+          text: 'Dashboard',
+          icon: <Dashboard />,
+          path: `${basePath}/dashboard`,
+        },
+        {
+          text: 'Profile',
+          icon: <AccountCircle />,
+          path: `${basePath}/profile`,
+        },
+        {
+          text: 'Requests',
+          icon: <AssignmentTurnedIn />,
+          path: `${basePath}/requests`,
+        },
+        {
+          text: 'Wallet',
+          icon: <AccountBalanceWallet />,
+          path: `${basePath}/wallet`,
+        },
+      ];
 
   return (
     <Drawer variant="permanent" anchor="left" sx={{ width: 240 }}>
       <Toolbar>
-        <Typography variant="h6" noWrap>Carbon Admin</Typography>
+        <Typography variant="h6" noWrap>
+          Carbon Admin
+        </Typography>
       </Toolbar>
       <List>
         {items.map(({ text, icon, path }) => (

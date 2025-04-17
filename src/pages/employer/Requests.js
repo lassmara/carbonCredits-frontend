@@ -77,18 +77,17 @@ const EmployerRequests = () => {
 
             return (
               <Card
-                key={req._id}
-                elevation={1}
-                sx={{
-                  borderRadius: 2,
-                  px: 2,
-                  py: 1.5,
-                  bgcolor: '#f9f9f9',
-                  width: '100%',
-                  maxWidth: '800px',
-                  mx: 'auto',
-                  boxShadow: '0px 1px 3px rgba(0,0,0,0.06)',
-                }}
+              key={req._id}
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+                px: 2,
+                py: 1.5,
+                bgcolor: '#f9f9f9',
+                width: '100%',
+                maxWidth: '800px',
+                boxShadow: '0px 1px 3px rgba(0,0,0,0.06)',
+              }}
               >
                 <CardContent>
                   <Grid container spacing={2} alignItems="center" justifyContent="space-between">
