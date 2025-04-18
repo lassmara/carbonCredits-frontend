@@ -22,9 +22,7 @@ const App = () => {
         {/* Login route */}
         <Route path="/" element={<LoginPage />} />
 
-        {/* Redirect old/broken route to the new one */}
-        <Route path="/dashboard/employee" element={<Navigate to="/employee/dashboard" replace />} />
-        <Route path="/dashboard/employer" element={<Navigate to="/employer/dashboard" replace />} />
+        
 
         {/* Employer routes */}
         <Route path="/employer" element={<EmployerLayout />}>

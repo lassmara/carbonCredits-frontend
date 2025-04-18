@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
 import {
-  Box,
-  Toolbar,
-  Typography,
-  AppBar,
-  CircularProgress,
-  IconButton,
-  Avatar,
-  Button,
+  Box, Typography, AppBar, IconButton,
+  Avatar, Button, Tooltip
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { useNavigate, Outlet } from 'react-router-dom';
 import axios from '../axios';
-import { Outlet, useNavigate } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const EmployeeLayout = () => {
   const [user, setUser] = useState(null);
@@ -23,62 +18,93 @@ const EmployeeLayout = () => {
       try {
         const res = await axios.get('/auth/me');
         setUser(res.data);
-      } catch (err) {
-        console.error('User not logged in. Redirecting...');
-        navigate('/');
+      } catch {
+        navigate('/login');
       }
     };
-
     fetchUser();
   }, [navigate]);
 
   const handleLogout = async () => {
     try {
-      await axios.post('/auth/logout'); // or clear token
+      await axios.post('/auth/logout');
       localStorage.clear();
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       console.error('Logout failed', err);
     }
   };
+  
 
-  if (!user) {
-    return <CircularProgress sx={{ m: 4 }} />;
-  }
+  const handleProfileClick = () => {
+    navigate('/employee/profile');
+  };
+
+  if (!user) return null;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar isEmployer={false} />
 
-      <Box sx={{ flexGrow: 1 }}>
-        {/* Top App Bar */}
+      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Top Header */}
         <AppBar
           position="static"
-          color="inherit"
+          color="default"
           elevation={1}
-          sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 2, px: 3 }}
+          sx={{
+            borderBottom: '1px solid #e0e0e0',
+            backgroundColor: '#fff',
+            px: 3,
+            py: 1.5,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
         >
-          <Typography variant="h6">
-            Welcome, <strong>{user.fullName}</strong> — Points: <strong>{user.points}</strong>
-          </Typography>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Typography variant="h6" fontWeight="500">
+              Welcome, <strong>{user.fullName}</strong>
+            </Typography>
+            <Box display="flex" alignItems="center" gap={0.5}>
+              <MonetizationOnIcon color="primary" />
+              <Typography variant="subtitle1" fontWeight="bold">
+                {user.points}
+              </Typography>
+            </Box>
+          </Box>
 
           <Box display="flex" alignItems="center" gap={2}>
-            <Avatar>{user.fullName[0]}</Avatar>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-              startIcon={<LogoutIcon />}
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+            <Tooltip title="Profile">
+              <IconButton onClick={handleProfileClick}>
+                <Avatar>{user.fullName.charAt(0).toUpperCase()}</Avatar>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Logout">
+              <Button
+                variant="outlined"
+                color="error"
+                size="small"
+                startIcon={<LogoutIcon />}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </Tooltip>
           </Box>
         </AppBar>
 
         {/* Page Content */}
-        <Box component="main" sx={{ p: 3 }}>
-          <Toolbar />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            overflowY: 'auto',
+            backgroundColor: '#fafafa',
+            p: 3,
+          }}
+        >
           <Outlet context={{ user }} />
         </Box>
       </Box>
