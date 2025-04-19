@@ -135,6 +135,25 @@ const EmployeeDashboard = () => {
 
   const deg2rad = (deg) => deg * (Math.PI / 180);
 
+  const handleCancel = () => {
+    // Reset the form and location states when Cancel is clicked
+    setStartLocation(null);
+    setEndLocation(null);
+    setStartSet(false);
+    setEndSet(false);
+    setDistance('');
+    setShowRequestForm(false); // Hide the request form
+    // Remove markers from map
+    if (window._startMarker) {
+      window._leafletMap.removeLayer(window._startMarker);
+      window._startMarker = null;
+    }
+    if (window._endMarker) {
+      window._leafletMap.removeLayer(window._endMarker);
+      window._endMarker = null;
+    }
+  };
+
   if (!user) return <Typography align="center" sx={{ mt: 5 }}>Loading...</Typography>;
 
   return (
@@ -145,7 +164,13 @@ const EmployeeDashboard = () => {
           <Button
             variant={showRequestForm ? 'contained' : 'outlined'}
             color={showRequestForm ? 'error' : 'success'}
-            onClick={() => setShowRequestForm(!showRequestForm)}
+            onClick={() => {
+              if (showRequestForm) {
+                handleCancel();  // Call the handleCancel to reset
+              } else {
+                setShowRequestForm(true); // Show the form if it's not showing
+              }
+            }}
           >
             {showRequestForm ? 'Cancel Request' : 'New Request'}
           </Button>
@@ -204,6 +229,7 @@ const EmployeeDashboard = () => {
             </Box>
           </Box>
         </Collapse>
+
       </Paper>
 
       <Snackbar
